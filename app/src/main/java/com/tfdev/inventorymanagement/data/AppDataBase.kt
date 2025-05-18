@@ -15,6 +15,7 @@ import com.tfdev.inventorymanagement.data.migrations.Migration4To5
 import com.tfdev.inventorymanagement.data.migrations.Migration5To6
 import com.tfdev.inventorymanagement.data.migrations.Migration6To7
 import com.tfdev.inventorymanagement.data.migrations.Migration7To8
+import com.tfdev.inventorymanagement.data.migrations.Migration8To9
 
 @Database(
     entities = [
@@ -31,7 +32,7 @@ import com.tfdev.inventorymanagement.data.migrations.Migration7To8
         InventoryTransaction::class,
         StockMovement::class
     ],
-    version = 8,
+    version = 9,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
@@ -48,6 +49,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun warehouseStockDao(): WarehouseStockDao
     abstract fun inventoryTransactionDao(): InventoryTransactionDao
     abstract fun stockMovementDao(): StockMovementDao
+    abstract fun lowStockProductDao(): LowStockProductDao
+    abstract fun stockMovementSummaryDao(): StockMovementSummaryDao
 
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null
@@ -66,7 +69,8 @@ abstract class AppDatabase : RoomDatabase() {
                     Migration4To5,
                     Migration5To6,
                     Migration6To7,
-                    Migration7To8
+                    Migration7To8,
+                    Migration8To9
                 )
                 .fallbackToDestructiveMigration()
                 .build()
